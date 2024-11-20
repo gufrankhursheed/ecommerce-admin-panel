@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Poppins } from "next/font/google"
 import "./globals.css";
+import Header from "./components/Header";
+import Head from 'next/head';
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,6 +16,8 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+const pop = Poppins({ subsets: ["latin"], weight: '400' })
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +31,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link
+          rel="preload"
+          href="/_next/static/css/app/layout.css"
+          as="style"
+          onLoad={() => {
+            const link = document.querySelector('link[rel="preload"]') as HTMLLinkElement;
+            if (link) {
+              link.onload = null;
+              link.rel = 'stylesheet';
+            }
+          }}
+        />
+      </Head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${pop.className} antialiased`}
       >
+        <Header />
         {children}
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+        />
       </body>
     </html>
   );
