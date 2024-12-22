@@ -3,10 +3,10 @@ import { Product } from "@/models/Product";
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
     try {
         await connect();
-        const { id } = params;
+        const { id } = context.params;
 
         if (!ObjectId.isValid(id)) {
             return NextResponse.json({ message: "Invalid product ID format" }, { status: 400 });
