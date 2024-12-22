@@ -11,6 +11,7 @@ interface Product {
     description: string;
     price: number;
     images: string[];
+    stock: number;
 }
 
 export default function Products() {
@@ -83,6 +84,7 @@ export default function Products() {
                                 <th scope="col" className="px-6 py-4 font-medium text-gray-900">Name</th>
                                 <th scope="col" className="px-6 py-4 font-medium text-gray-900">Description</th>
                                 <th scope="col" className="px-6 py-4 font-medium text-gray-900">Price</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-900">Stock</th>
                                 <th scope="col" className="px-6 py-4 font-medium text-gray-900"></th>
                             </tr>
                         </thead>
@@ -95,6 +97,7 @@ export default function Products() {
                                     <td className="px-6 py-4">
                                         {product.price}
                                     </td>
+                                    <td className="px-6 py-4">{product.stock}</td>
                                     <td className="flex justify-end gap-4 px-6 py-4 font-medium">
                                         <Link href={`/products/delete/${product._id}`} className="text-red-700">Delete</Link>
                                         <Link href={`/products/edit/${product._id}`} className="text-primary-700">Edit</Link>

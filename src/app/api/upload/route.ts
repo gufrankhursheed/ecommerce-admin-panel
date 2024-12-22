@@ -47,17 +47,17 @@ const streamToBuffer = (stream: ReadableStream<Uint8Array>): Promise<Buffer> => 
       try {
         const { done, value } = await reader.read();
         if (done) {
-          resolve(Buffer.concat(chunks)); // Convert the chunks into a Buffer
-          return; // Ensure we exit the function here
+          resolve(Buffer.concat(chunks));
+          return; 
         }
         chunks.push(value);
-        await processText(); // Recursively read more chunks
+        await processText(); 
       } catch (error) {
-        reject(error); // Handle any errors in reading
+        reject(error); 
       }
     };
 
-    processText(); // Start the reading process
+    processText(); 
   });
 };
 

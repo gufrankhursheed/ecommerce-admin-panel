@@ -32,8 +32,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         const updateData = await request.json();
         
         const updatedProduct = await Product.findByIdAndUpdate(id, updateData, {
-            new: true, // Return the updated document
-            runValidators: true, // Ensure validation rules are applied
+            new: true, 
+            runValidators: true, 
         });
 
         if (!updatedProduct) {

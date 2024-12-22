@@ -15,6 +15,7 @@ interface ProductProps {
         description: string;
         price: number;
         images: { id: string; src: string }[];
+        stock: number
     };
 }
 
@@ -23,6 +24,7 @@ export default function Product({ productInfo }: ProductProps) {
     const [category, setCategory] = useState(productInfo?.category || '');
     const [description, setDescription] = useState(productInfo?.description || '');
     const [price, setPrice] = useState<number | null>(productInfo?.price || null);
+    const [stock, setStock] = useState<number | null>(productInfo?.stock || null);
     const [images, setImages] = useState<{ id: string; src: string }[]>(productInfo?.images || []);
     const [isUploading, setIsUploading] = useState(false)
     const [uploadError, setUploadError] = useState(null)
@@ -35,6 +37,7 @@ export default function Product({ productInfo }: ProductProps) {
             setDescription(productInfo.description);
             setPrice(productInfo.price);
             setImages(productInfo.images || []);
+            setStock(productInfo.stock);
         }
     }, [productInfo]);
 
@@ -42,6 +45,12 @@ export default function Product({ productInfo }: ProductProps) {
         const value = e.target.value;
         const numericValue = value ? parseFloat(value) : null;
         setPrice(numericValue);
+    }
+
+    const handleChangeStock = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const numericValue = value ? parseInt(value) : null;
+        setStock(numericValue);
     }
 
     async function uploadImages(e: any) {
@@ -114,6 +123,7 @@ export default function Product({ productInfo }: ProductProps) {
                     description,
                     price: numericPrice,
                     images: formattedImages,
+                    stock
                 }),
             });
 
@@ -220,6 +230,12 @@ export default function Product({ productInfo }: ProductProps) {
                 <div>
                     <label htmlFor="example1" className="mb-1 block text-xl font-medium text-gray-700">Price</label>
                     <input type="number" id="price" className="block w-full rounded-md border border-gray-300 outline-none p-3 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder="Product Price" value={price !== null ? price : ''} onChange={handleChangePrice} />
+                </div>
+            </div>
+            <div className="md:mx-auto max-w-xl my-2 mb-1 mx-2">
+                <div>
+                    <label htmlFor="example1" className="mb-1 block text-xl font-medium text-gray-700">Stock</label>
+                    <input type="number" id="stock" className="block w-full rounded-md border border-gray-300 outline-none p-3 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder="Product Stock" value={stock !== null ? stock : ''} onChange={handleChangeStock} />
                 </div>
             </div>
             <div className="md:mx-auto max-w-xl my-2 mb-1 mx-2">

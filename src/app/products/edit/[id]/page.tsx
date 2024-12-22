@@ -12,6 +12,7 @@ interface Product {
     description: string;
     price: number;
     images: { id: string; src: string }[]; 
+    stock: number
 }
 
 export default function Edit() {
