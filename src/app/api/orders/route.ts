@@ -2,7 +2,7 @@ import connect from "@/connection/mongoDB";
 import { Order } from "@/models/Order";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         await connect();
         const orders = await Order.find({});

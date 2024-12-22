@@ -1,11 +1,11 @@
 "use client";
 
-import connect from "@/connection/mongoDB";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import Spinner from "./Spinner";
 import { ReactSortable } from "react-sortablejs";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface ProductProps {
     productInfo?: {
@@ -27,7 +27,6 @@ export default function Product({ productInfo }: ProductProps) {
     const [stock, setStock] = useState<number | null>(productInfo?.stock || null);
     const [images, setImages] = useState<{ id: string; src: string }[]>(productInfo?.images || []);
     const [isUploading, setIsUploading] = useState(false)
-    const [uploadError, setUploadError] = useState(null)
     const router = useRouter();
 
     useEffect(() => {
@@ -53,11 +52,10 @@ export default function Product({ productInfo }: ProductProps) {
         setStock(numericValue);
     }
 
-    async function uploadImages(e: any) {
+    async function uploadImages(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target?.files;
-        if (files?.length > 0) {
+        if ( files && files?.length > 0) {
             setIsUploading(true);
-            setUploadError(null)
 
             const uploadImagesQueue: Promise<void>[] = [];
 
@@ -206,7 +204,7 @@ export default function Product({ productInfo }: ProductProps) {
                     <ReactSortable list={Array.isArray(images) ? images : []} setList={updateImagesOrder} animation={200} className="grid grid-cols-2 gap-4">
                         {images.map((image, index) => (
                             <div key={image.id || index} className="relative group">
-                                <img src={image.src} alt="image" className=" h-36 w-full md:h-40 md:w-48 rounded-lg p-1 md:p-2 " />
+                                <Image src={image.src} width={1000} height={1000} alt="image" className=" h-36 w-full md:h-40 md:w-48 rounded-lg p-1 md:p-2 " />
                                 <div className="absolute top-2 right-2 cursor-pointer group-hover:opacity-100 opacity-0 transition-opacity">
                                     <button onClick={() => { handleDeleteImage(index) }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 text-red-600">

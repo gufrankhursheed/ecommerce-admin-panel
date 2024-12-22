@@ -1,6 +1,4 @@
-import Image from "next/image"
-import { auth, signIn, signOut } from "@/auth"
-import { use } from "react"
+import { auth, signIn } from "@/auth"
 import Link from "next/link"
 import Grid from "./components/Grid"
 

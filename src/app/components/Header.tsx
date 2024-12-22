@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 export default async function Header() {
     const session = await auth()
@@ -45,7 +45,7 @@ export default async function Header() {
                             <div className="flex items-center gap-4">
                                 <div className="sm:flex sm:gap-4">
                                     <div className="h-10 w-10">
-                                        <img className="h-9 w-9 rounded-full object-cover object-center" src={user?.image ?? ""} alt="" />
+                                        <Image width={1000} height={1000} className="h-9 w-9 rounded-full object-cover object-center" src={user?.image ?? ""} alt="" />
                                     </div>
                                 </div>
     
