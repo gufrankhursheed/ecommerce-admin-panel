@@ -4,14 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     try {
-        const { title, category, description, price, images } = await request.json();
+        const { title, category, description, price, images, stock } = await request.json();
         await connect();
         await Product.create({
             title,
             category,
             description,
             price,
-            images
+            images,
+            stock,
         });
         return NextResponse.json({ message: "Product created" }, { status: 201 })
     } catch (error) {

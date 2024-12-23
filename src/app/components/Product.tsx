@@ -104,6 +104,7 @@ export default function Product({ productInfo }: ProductProps) {
             const endpoint = productInfo ? `/api/products/${productInfo._id}` : "/api/products";
             
             const numericPrice = price !== null ? price : 0; 
+            const numericStock = stock !== null ? stock : 0;
 
             const formattedImages = images.map((image) => ({
                 id: image.id,
@@ -121,7 +122,7 @@ export default function Product({ productInfo }: ProductProps) {
                     description,
                     price: numericPrice,
                     images: formattedImages,
-                    stock
+                    stock: numericStock,
                 }),
             });
 

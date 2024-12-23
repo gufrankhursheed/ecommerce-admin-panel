@@ -3,10 +3,10 @@ import { Product } from "@/models/Product";
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params,}: { params: Promise<{ id: string }> }) {
     try {
         await connect();
-        const { id } = context.params;
+        const { id } = await params;
 
         if (!ObjectId.isValid(id)) {
             return NextResponse.json({ message: "Invalid product ID format" }, { status: 400 });
@@ -25,10 +25,10 @@ export async function GET(request: NextRequest, context: { params: { id: string 
     }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params,}: { params: Promise<{ id: string }> }) {
     try {
         await connect();
-        const { id } = params;
+        const { id } = await params;
         const updateData = await request.json();
         
         const updatedProduct = await Product.findByIdAndUpdate(id, updateData, {
@@ -47,10 +47,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     }
 }
 
-export async function DELETE(req: NextRequest, {params}:{params:{id: string}}) {
+export async function DELETE(req: NextRequest, { params,}: { params: Promise<{ id: string }> }) {
     try {
         await connect();
-        const {id} = params
+        const {id} = await params
 
         if (!ObjectId.isValid(id)) {
             return NextResponse.json({ message: "Invalid product ID format" }, { status: 400 });
