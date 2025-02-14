@@ -13,36 +13,36 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Email and password are required" }, { status: 400 });
         }
 
-        const user = await Admin.findOne({ email });
+        const admin = await Admin.findOne({ email });
 
-        if (!user) {
+        if (!admin) {
             return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, admin.password);
         if (!isPasswordValid) {
             return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
         }
 
         const accessToken = jwt.sign(
             {
-                username: user.name,
-                email: user.email
+                username: admin.name,
+                email: admin.email
             },
             process.env.ACCESS_TOKEN_SECRET!,
             { expiresIn: "15m" }
         );
 
         const refreshToken = jwt.sign(
-            { username: user.name },
+            { username: admin.name },
             process.env.REFRESH_TOKEN_SECRET!,
             { expiresIn: "7d" }
         );
 
-        user.refreshToken = refreshToken;
-        await user.save();
+        admin.refreshToken = refreshToken;
+        await admin.save();
 
-        const response = NextResponse.json({ message: "Login successful", user }, { status: 200 });
+        const response = NextResponse.json({ message: "Login successful", admin }, { status: 200 });
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
             secure: true
