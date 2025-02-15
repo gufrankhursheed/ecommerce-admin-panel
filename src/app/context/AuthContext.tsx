@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { createContext, useContext, useState, useEffect } from "react";
 
 interface Currentuser {
@@ -15,6 +16,7 @@ interface AuthContextType {
     refreshToken: () => Promise<void>;
     logout: () => void;
     isTokenExpired: boolean;
+    loading: boolean
 }
 
 
@@ -27,11 +29,15 @@ export const useAuth = () => {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+    const pathname = usePathname()
     const [currentUser, setCurrentUser] = useState<any>(null);
     const [isTokenExpired, setIsTokenExpired] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const fetchUser = async () => {
         try {
+            setLoading(true)
+
             const res = await fetch("/api/admin", {
                 method: "GET",
                 credentials: "include",
@@ -51,6 +57,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setIsTokenExpired(false);
         } catch (error) {
             console.error("Error fetching admin:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -106,10 +114,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         fetchUser();
-    }, []);
+    }, [pathname]);
 
     return (
-        <AuthContext.Provider value={{ currentUser, setCurrentUser, fetchUser, refreshToken, logout, isTokenExpired }}>
+        <AuthContext.Provider value={{ currentUser, setCurrentUser, fetchUser, refreshToken, logout, isTokenExpired, loading }}>
             {children}
         </AuthContext.Provider>
     );
