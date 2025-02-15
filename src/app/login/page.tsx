@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../context/AuthContext';
 
 const login = () => {
 
@@ -10,7 +11,7 @@ const login = () => {
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    //const { setCurrentUser } = useAuth();
+    const { setCurrentUser } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,9 +32,9 @@ const login = () => {
             }
 
             const data = await res.json();
-            //setCurrentUser(data.user); 
+            setCurrentUser(data.admin); 
 
-            router.push("/");
+            router.push("/dashboard");
 
         } catch (error) {
             console.log("error during login ", error)

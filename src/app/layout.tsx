@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Head from 'next/head';
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
 
 const pop = Poppins({ subsets: ["latin"], weight: '400' })
 
@@ -36,12 +37,14 @@ export default function RootLayout({
       <body
         className={`${pop.className} antialiased`}
       >
-        <Header />
-        {children}
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-        />
+        <AuthProvider>
+          <Header />
+          {children}
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+          />
+        </AuthProvider>
       </body>
     </html>
   );
